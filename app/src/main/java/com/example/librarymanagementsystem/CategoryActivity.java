@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 public class CategoryActivity extends AppCompatActivity {
 
@@ -53,4 +55,12 @@ public class CategoryActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_activity_menu, menu);
+        return true;
+    }
+
 }

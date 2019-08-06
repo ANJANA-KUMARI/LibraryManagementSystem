@@ -115,6 +115,16 @@ public class MainActivity extends AppCompatActivity {
         });
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch(menuItem.getOrder()){
+                    
+                }
+
+                return true;
+            }
+        });
 
 
     }
