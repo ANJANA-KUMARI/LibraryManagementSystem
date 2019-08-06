@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Collection" android:icon="@drawable/ic_collections_bookmark_black_24dp"/>
-    <item android:title="Books" android:icon="@drawable/ic_library_books_black_24dp"/>
-    <item android:title="Search" android:icon="@drawable/ic_search_black_24dp"/>
+    <item
+        android:id="@+id/collectionbtn"
+        android:title="Collection"
+        android:icon="@drawable/ic_collections_bookmark_black_24dp"/>
+    <item
+        android:id="@+id/bookbtn"
+        android:title="Books"
+        android:icon="@drawable/ic_library_books_black_24dp"/>
+    <item
+        android:id="@+id/searchbtn"
+        android:title="Search"
+        android:icon="@drawable/ic_search_black_24dp"/>
 
 </menu>

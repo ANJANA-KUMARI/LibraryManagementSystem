@@ -8,4 +8,6 @@
     <string name="cover">Cover</string>
     <string name="summary">Summary</string>
     <string name="category">Category</string>
+    <string name="add_note">Add Note</string>
+    <string name="qa">QA</string>
 </resources>
