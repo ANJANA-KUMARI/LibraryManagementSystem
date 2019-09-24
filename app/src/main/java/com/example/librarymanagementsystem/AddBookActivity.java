@@ -100,10 +100,25 @@ public class AddBookActivity extends AppCompatActivity implements AdapterView.On
         Book bookToInsert = new Book();
         bookToInsert.title  = this.titleTxt.getText().toString();
         bookToInsert.author = this.authorTxt.getText().toString();
-        bookToInsert.pages = Integer.valueOf(this.pagesTxt.getText().toString());
+
+        try{
+
+            bookToInsert.pages = Integer.valueOf(this.pagesTxt.getText().toString());
+
+        }catch (NumberFormatException e){
+            // if user did not enter anything for the pages textbox or entered some letters, this exception will be thrown because we convert it into a number using the Integer.valueOf() method malu
+            // so if this happens we assign the pages 0
+            bookToInsert.pages = 0;
+        }
+
         bookToInsert.summary = this.summaryTxt.getText().toString();
         bookToInsert.catid = selectedCategoryId;
         bookToInsert.cover = "";
+
+        // before insert we have to validate this book malu, if it returns false then we cannot add the book so return
+        if(!validateBook(bookToInsert)){
+            return;
+        }
 
         int result = (int)dbHelper.insertBook(bookToInsert);
 
@@ -119,5 +134,28 @@ public class AddBookActivity extends AppCompatActivity implements AdapterView.On
             Toast.makeText(AddBookActivity.this, "Insert failed " + result , Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    // me method eken api user input validation balanaw malu
+    private boolean validateBook(Book newBook){
+
+        if(newBook.title.length() == 0){
+            showToast("Title is required");
+            return false;
+        }else if(newBook.author.length() == 0){
+            showToast("Author is required");
+            return false;
+        }else if(newBook.pages == 0){
+            showToast("Pages cannot be 0");
+            return false;
+        }
+
+        // no invalid data so return true
+        return true;
+    }
+
+    private void showToast(String msg){
+        // ara tost ekak display karan ek hama velam gagaha inna bari nisa ek funtion ekakt damma malu
+        Toast.makeText(AddBookActivity.this, msg, Toast.LENGTH_SHORT).show();
     }
 }

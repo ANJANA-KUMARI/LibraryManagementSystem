@@ -38,12 +38,25 @@ public class MainActivity extends AppCompatActivity {
         this.dbHelper = new BookDbHelper(this);
 
 
-        this.setupBookRecyclerView();
-
         this.initializeViews();
+
+        // malu meka uncomment karala OnResume eke me line ek comment karala run karala balanna malu book ekak add karala
+        // ita passe meka comment karala onresume eke eka uncomment karala aya run karala balanna malu book ekak add karala mokadda difference ek kiyala malu
+//        this.setupBookRecyclerView();
+
 
         this.setupBottomNavigationBar();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // api meka onCreate eke nathuw onResume eke mehem call karanaw malu
+        // mokad dan api AddBookActivity eken 1k add kalam malu aya back enawane, ehem me MainActivity ekat back enakot aya api db eken update unu data ganna oni ne malu
+        // eth ehem back enakot me activity eke oncreate run venne na malu onResume thama run venne, eka nisa thama database eken data ganna tika api onResume eke damme
+        this.setupBookRecyclerView();
     }
 
     private void setupBookRecyclerView(){
