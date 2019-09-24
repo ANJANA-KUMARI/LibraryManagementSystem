@@ -10,4 +10,17 @@
     <string name="category">Category</string>
     <string name="add_note">Add Note</string>
     <string name="qa">QA</string>
+    <string name="cat1"></string>
+
+    <string-array name="categories">
+        <item>Education</item>
+        <item>History</item>
+        <item>Cooking</item>
+        <item>Biography</item>
+        <item>Medical</item>
+        <item>Religion</item>
+        <item>Sport</item>
+    </string-array>
+
+
 </resources>

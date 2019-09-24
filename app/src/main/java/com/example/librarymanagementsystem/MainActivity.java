@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -87,21 +88,23 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         BottomNavigationView v = findViewById(R.id.bottom_navigation);
+        Log.i("MAIN_ACTIVITY", v.toString());
         v.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getOrder()) {
-                    case 0 :
-                        Intent intent = new Intent(MainActivity.this, AddBookActivity.class);
+                menuItem.setChecked(true);
+                switch (menuItem.getItemId()) {
+                    case R.id.collectionbtn :
+                        Intent intent = new Intent(MainActivity.this, CategoryActivity.class);
                         startActivity(intent);
                         break;
-                    case 1 :
-                        Intent intent1 = new Intent(MainActivity.this, BookViewActivity.class);
+                    case R.id.searchbtn :
+                        Intent intent1 = new Intent(MainActivity.this, SearchActivity.class);
                         startActivity(intent1);
                         break;
 
                 }
-                return false;
+                return true;
             }
         });
 
@@ -111,18 +114,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, AddBookActivity.class);
                 startActivity(intent);
-            }
-        });
-
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch(menuItem.getOrder()){
-                    
-                }
-
-                return true;
             }
         });
 

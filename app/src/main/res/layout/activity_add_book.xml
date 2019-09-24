@@ -37,6 +37,7 @@
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/authorInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -93,6 +94,7 @@
             android:layout_height="match_parent" />
     </com.google.android.material.textfield.TextInputLayout>
 
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/summaryInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -119,10 +121,35 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="140dp"
-            android:inputType="textLongMessage"
-            android:gravity="top"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:gravity="top"
+            android:inputType="textLongMessage" />
 
+          </com.google.android.material.textfield.TextInputLayout>
+
+
+    <Spinner
+        android:id="@+id/categoryID"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="160dp"
+        android:hint="@string/category"
+        android:textColorHint="@color/boxTextColor"
+        app:boxStrokeColor="@color/boxBoarderColor"
+        app:helperText="Required"
+        app:helperTextEnabled="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/summaryInputLayout"
+        app:layout_constraintVertical_bias="0.90"
+
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/file_upload_btn"
@@ -139,7 +166,11 @@
         app:layout_constraintVertical_bias="0.856"
         app:srcCompat="@drawable/ic_file_upload_black_24dp"
         app:backgroundTint="@color/uploadButton"
-        />
+        tools:ignore="VectorDrawableCompat" />
 
-    <include layout="@layout/bottom_navigation_bar"/>
+
+    <include
+        layout="@layout/bottom_navigation_bar"
+        tools:layout_editor_absoluteX="-25dp"
+        tools:layout_editor_absoluteY="183dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
