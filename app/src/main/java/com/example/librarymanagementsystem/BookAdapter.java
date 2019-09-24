@@ -13,12 +13,14 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder> {
 
-    private Book bookArray[];
+    private ArrayList<Book> bookArray;
     private Context context;
 
-    public BookAdapter( Book[] data, Context context) {
+    public BookAdapter(ArrayList<Book> data, Context context) {
         super();
         this.bookArray = data;
         this.context = context;
@@ -36,15 +38,15 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
-        holder.title.setText(bookArray[position].title);
+        holder.title.setText(bookArray.get(position).title);
         Resources resources = context.getResources();
-        int coverID = resources.getIdentifier(bookArray[position].cover, "drawable", context.getPackageName());
+        int coverID = resources.getIdentifier(bookArray.get(position).cover, "drawable", context.getPackageName());
         holder.cover.setImageResource(coverID);
     }
 
     @Override
     public int getItemCount() {
-        return bookArray.length;
+        return bookArray.size();
     }
 
     public static class BookViewHolder extends RecyclerView.ViewHolder {

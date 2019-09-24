@@ -20,7 +20,7 @@ public class BookContract {
     }
 
     public static class BookCategoryEntry implements BaseColumns{
-        public static final String TABLE_NAME = "book";
+        public static final String TABLE_NAME = "category";
         public static final String COLUMN_NAME_ID = "id";
         public static final String COLUMN_NAME_NAME ="name";
         public static final String COLUMN_NAME_IMAGE ="image";
@@ -36,6 +36,9 @@ public class BookContract {
                     BookEntry.COLUMN_NAME_SUMMARY + " TEXT," +
                     BookEntry.COLUMN_NAME_CATID + " INTEGER," +
                     BookEntry.COLUMN_NAME_COVER + " TEXT)";
+
+    public static  final String SQL_DROP_BOOKS =
+            "DROP TABLE IF EXISTS " + BookEntry.TABLE_NAME;
 
 
     public static final String SQL_CREATE_CATEGORY =

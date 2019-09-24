@@ -15,7 +15,7 @@ import java.util.List;
 
 public class BookDbHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "Library.db";
 
     public BookDbHelper(Context context) {
@@ -23,8 +23,10 @@ public class BookDbHelper extends SQLiteOpenHelper {
     }
 
 
+
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        //sqLiteDatabase.execSQL(BookContract.SQL_DROP_BOOKS);
         sqLiteDatabase.execSQL(BookContract.SQL_CREATE_BOOKS);
         sqLiteDatabase.execSQL(BookContract.SQL_CREATE_CATEGORY);
     }
@@ -83,7 +85,7 @@ public class BookDbHelper extends SQLiteOpenHelper {
         return deleteRows;
     }
 
-    public List<Book> getAllBooks() {
+    public ArrayList<Book> getAllBooks() {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String[] projection = {
@@ -119,6 +121,7 @@ public class BookDbHelper extends SQLiteOpenHelper {
             book.cover = cursor.getString(cursor.getColumnIndexOrThrow(BookContract.BookEntry.COLUMN_NAME_COVER));
 
             bookList.add(book);
+
         }
 
         return bookList;

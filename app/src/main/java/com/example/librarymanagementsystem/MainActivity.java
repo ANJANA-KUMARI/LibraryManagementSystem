@@ -14,7 +14,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 
+import com.example.librarymanagementsystem.db.BookDbHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.ArrayList;
 
 import static java.security.AccessController.getContext;
 
@@ -23,70 +26,65 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager manager;
-    private Book bookArray[] = new Book[12];
+    private ArrayList<Book> bookArray;
+
+    private BookDbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bookArray[0] = new Book();
-        bookArray[0].title = "Harry Potter";
-        bookArray[0].cover = "book1";
+        this.dbHelper = new BookDbHelper(this);
 
 
-        bookArray[1] = new Book();
-        bookArray[1].title = "Harry Potter 2";
-        bookArray[1].cover = "book2";
+        this.setupBookRecyclerView();
 
-        bookArray[2] = new Book();
-        bookArray[2].title = "Harry Potter 3";
-        bookArray[2].cover = "book1";
+        this.initializeViews();
 
-        bookArray[3] = new Book();
-        bookArray[3].title = "Harry Potter 3";
-        bookArray[3].cover = "book1";
+        this.setupBottomNavigationBar();
 
-        bookArray[4] = new Book();
-        bookArray[4].title = "Harry Potter 3";
-        bookArray[4].cover = "book1";
+    }
 
-        bookArray[5] = new Book();
-        bookArray[5].title = "Harry Potter 3";
-        bookArray[5].cover = "book1";
+    private void setupBookRecyclerView(){
+        // me tiken ne malu ape recycler view ek setup venne
 
-        bookArray[6] = new Book();
-        bookArray[6].title = "Harry Potter 3";
-        bookArray[6].cover = "book1";
-
-        bookArray[7] = new Book();
-        bookArray[7].title = "Harry Potter 3";
-        bookArray[7].cover = "book1";
-
-        bookArray[8] = new Book();
-        bookArray[8].title = "Harry Potter 3";
-        bookArray[8].cover = "book1";
-
-        bookArray[9] = new Book();
-        bookArray[9].title = "Harry Potter 3";
-        bookArray[9].cover = "book1";
-
-        bookArray[10] = new Book();
-        bookArray[10].title = "Harry Potter 3";
-        bookArray[10].cover = "book1";
-
-        bookArray[11] = new Book();
-        bookArray[11].title = "Harry Potter 3";
-        bookArray[11].cover = "book1";
+        // api meka onCreate eke nathuw onResume ekedamu malu, ai e kiyala balala api ek damu malu
+        // mn e dan book array ek thibba hama thanam ek ArrayList ekak kala malu mokad api danne nane book kiyak thiyed kiyala db eke ne malu
 
 
-        recyclerView = findViewById(R.id.bookList);
+        // dan api db eken ganna yanne malu okkom tika
+
+        this.bookArray = dbHelper.getAllBooks();
+
         manager = new GridLayoutManager(this, 3);
-
         recyclerView.setLayoutManager(manager);
         adapter = new BookAdapter(bookArray,this);
         recyclerView.setAdapter(adapter);
 
+    }
+
+    private void initializeViews(){
+        // me findViewById thien eva okkom malu 1k function ekak athule damma malu ethkot ape onCreate ek pahadile ne malu ne
+
+        recyclerView = findViewById(R.id.bookList);
+        findViewById(R.id.add_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, AddBookActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_activity_menu, menu);
+        return true;
+    }
+
+    private void setupBottomNavigationBar(){
         BottomNavigationView v = findViewById(R.id.bottom_navigation);
         Log.i("MAIN_ACTIVITY", v.toString());
         v.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -99,7 +97,8 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case R.id.searchbtn :
-                        Intent intent1 = new Intent(MainActivity.this, SearchActivity.class);
+                        Intent intent1 = new Intent(MainActivity.this, SearchActivity
+                                .class);
                         startActivity(intent1);
                         break;
 
@@ -108,23 +107,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        findViewById(R.id.add_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddBookActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_activity_menu, menu);
-        return true;
     }
 
 
