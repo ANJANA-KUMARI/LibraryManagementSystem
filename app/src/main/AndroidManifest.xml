@@ -12,7 +12,7 @@
         <activity android:name=".SearchActivity"></activity>
         <activity android:name=".CategoryActivity"></activity>
         <activity android:name=".BookViewActivity" />
-        <activity android:name=".AddBookActivity">
+        <activity android:name=".AddBookActivity" android:windowSoftInputMode="adjustPan">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->

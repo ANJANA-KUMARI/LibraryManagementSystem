@@ -20,7 +20,7 @@ public class CategoryActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager manager;
-    private Category[] catArray = new Category[7];
+    private Category[] catArray = new Category[8];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +28,11 @@ public class CategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_category);
 
         catArray[0] = new Category();
-        catArray[0].image = "edu";
+        catArray[0].image = "education";
         catArray[0].text = "Education";
 
         catArray[1] = new Category();
-        catArray[1].image = "history";
+        catArray[1].image = "his";
         catArray[1].text = "History";
 
         catArray[2] = new Category();
@@ -54,6 +54,10 @@ public class CategoryActivity extends AppCompatActivity {
         catArray[6] = new Category();
         catArray[6].image = "biography";
         catArray[6].text = "Biography";
+
+        catArray[7] = new Category();
+        catArray[7].image = "grammar";
+        catArray[7].text = "Grammar";
 
 
         recyclerView = findViewById(R.id.catList);

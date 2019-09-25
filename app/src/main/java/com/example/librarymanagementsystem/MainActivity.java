@@ -27,6 +27,14 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager manager;
     private ArrayList<Book> bookArray;
+    private BookAdapter.BookClickListener bookClickListener = new BookAdapter.BookClickListener() {
+        @Override
+        public void onBookClick(int position) {
+            Intent intent = new Intent(MainActivity.this, BookViewActivity.class);
+            intent.putExtra(BookViewActivity.BOOKID, bookArray.get(position).id);
+            startActivity(intent);
+        }
+    };
 
     private BookDbHelper dbHelper;
 
@@ -72,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         manager = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(manager);
-        adapter = new BookAdapter(bookArray,this);
+        adapter = new BookAdapter(bookArray,this, bookClickListener);
         recyclerView.setAdapter(adapter);
 
     }

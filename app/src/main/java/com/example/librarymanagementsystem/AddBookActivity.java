@@ -6,8 +6,11 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ActivityManager;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,11 +23,19 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.librarymanagementsystem.db.BookDbHelper;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.ArrayList;
+
+import droidninja.filepicker.FilePickerBuilder;
 
 import static java.security.AccessController.getContext;
 
 public class AddBookActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+
+    public static final String BOOKID  = "BOOKID";
+
     // api dan e textbox valat reference ganna oni malu
     private TextInputEditText titleTxt;
     private TextInputEditText authorTxt;
@@ -32,6 +43,7 @@ public class AddBookActivity extends AppCompatActivity implements AdapterView.On
     private TextInputEditText summaryTxt;
     private  int selectedCategoryId =  -1;
 
+    private FloatingActionButton fileUploadBtn;
     private BookDbHelper dbHelper;
 
     @Override
@@ -59,6 +71,9 @@ public class AddBookActivity extends AppCompatActivity implements AdapterView.On
         authorTxt = findViewById(R.id.book_author_txt);
         pagesTxt = findViewById(R.id.book_pages_txt);
         summaryTxt = findViewById(R.id.book_summary_txt);
+
+        fileUploadBtn = findViewById(R.id.file_upload_btn);
+
     }
 
     @Override
@@ -126,7 +141,7 @@ public class AddBookActivity extends AppCompatActivity implements AdapterView.On
             // success
             // navigate to main activity malu
             // this will go back malu, back to the main activity
-            Toast.makeText(AddBookActivity.this, "Inserted " + result , Toast.LENGTH_SHORT).show();
+            showToast("Successful Inserted.");
             finish();
 
         }else{
@@ -158,4 +173,8 @@ public class AddBookActivity extends AppCompatActivity implements AdapterView.On
         // ara tost ekak display karan ek hama velam gagaha inna bari nisa ek funtion ekakt damma malu
         Toast.makeText(AddBookActivity.this, msg, Toast.LENGTH_SHORT).show();
     }
+
+
+
+
 }

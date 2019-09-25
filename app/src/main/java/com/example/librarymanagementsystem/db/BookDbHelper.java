@@ -63,7 +63,7 @@ public class BookDbHelper extends SQLiteOpenHelper {
         values.put(BookContract.BookEntry.COLUMN_NAME_CATID, book.catid);
         values.put(BookContract.BookEntry.COLUMN_NAME_COVER, book.cover);
 
-        String selection = " WHERE " + BookContract.BookEntry.COLUMN_NAME_ID + " = ?";
+        String selection = BookContract.BookEntry.COLUMN_NAME_ID + " = ?";
         String[] selectionArgs = {Integer.toString(book.id)};
 
         int count = db.update(
@@ -78,7 +78,7 @@ public class BookDbHelper extends SQLiteOpenHelper {
     public int deleteBook(Book book) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String selection = " WHERE " + BookContract.BookEntry.COLUMN_NAME_ID + " = ?";
+        String selection = BookContract.BookEntry.COLUMN_NAME_ID + " = ?";
         String[] selectiionArgs = {Integer.toString(book.id)};
 
         int deleteRows = db.delete(BookContract.BookEntry.TABLE_NAME, selection, selectiionArgs);
@@ -125,6 +125,47 @@ public class BookDbHelper extends SQLiteOpenHelper {
         }
 
         return bookList;
+    }
+
+    public Book getBook(int bookId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String[] projection = {
+                BookContract.BookEntry.COLUMN_NAME_ID,
+                BookContract.BookEntry.COLUMN_NAME_TITLE,
+                BookContract.BookEntry.COLUMN_NAME_AUTHOR,
+                BookContract.BookEntry.COLUMN_NAME_PAGES,
+                BookContract.BookEntry.COLUMN_NAME_SUMMARY,
+                BookContract.BookEntry.COLUMN_NAME_CATID,
+                BookContract.BookEntry.COLUMN_NAME_COVER
+        };
+
+        String selection = BookContract.BookEntry.COLUMN_NAME_ID + "=?";
+        String[] selectionArgs = {String.valueOf(bookId)};
+
+        Cursor cursor = db.query(BookContract.BookEntry.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+
+        cursor.moveToNext();
+            Book book = new Book();
+
+            book.id = cursor.getInt(cursor.getColumnIndexOrThrow(BookContract.BookEntry.COLUMN_NAME_ID));
+            book.title = cursor.getString(cursor.getColumnIndexOrThrow(BookContract.BookEntry.COLUMN_NAME_TITLE));
+            book.author = cursor.getString(cursor.getColumnIndexOrThrow(BookContract.BookEntry.COLUMN_NAME_AUTHOR));
+            book.pages = cursor.getInt(cursor.getColumnIndexOrThrow(BookContract.BookEntry.COLUMN_NAME_PAGES));
+            book.summary = cursor.getString(cursor.getColumnIndexOrThrow(BookContract.BookEntry.COLUMN_NAME_SUMMARY));
+            book.catid = cursor.getInt(cursor.getColumnIndexOrThrow(BookContract.BookEntry.COLUMN_NAME_CATID));
+            book.cover = cursor.getString(cursor.getColumnIndexOrThrow(BookContract.BookEntry.COLUMN_NAME_COVER));
+
+            return book;
+
     }
 
     public void insertDefaultCategoryList(){

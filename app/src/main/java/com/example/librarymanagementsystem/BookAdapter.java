@@ -17,11 +17,14 @@ import java.util.ArrayList;
 
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder> {
 
+    private BookClickListener bookClickListener;
+
     private ArrayList<Book> bookArray;
     private Context context;
 
-    public BookAdapter(ArrayList<Book> data, Context context) {
+    public BookAdapter(ArrayList<Book> data, Context context, BookClickListener bookClickListener) {
         super();
+        this.bookClickListener = bookClickListener;
         this.bookArray = data;
         this.context = context;
     }
@@ -42,6 +45,10 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
         Resources resources = context.getResources();
         int coverID = resources.getIdentifier(bookArray.get(position).cover, "drawable", context.getPackageName());
         holder.cover.setImageResource(coverID);
+
+        holder.clickListener = bookClickListener;
+        holder.bindListeners();
+
     }
 
     @Override
@@ -53,18 +60,30 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
 
       public TextView title;
       public ImageView cover;
+      public View parent;
+      public BookClickListener clickListener;
 
         public BookViewHolder(View item){
             super(item);
+            this.parent = item;
             this.title = (TextView)item.findViewById(R.id.bookTitle);
             this.cover = (ImageView)item.findViewById(R.id.cover);
         }
 
-        public void setDetails(Book book) {
-            title.setText(book.title);
+        public void bindListeners() {
+            this.parent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickListener.onBookClick(getAdapterPosition());
+                }
+            });
 
 
         }
 
+    }
+
+    public interface BookClickListener{
+        void onBookClick(int position);
     }
 }
