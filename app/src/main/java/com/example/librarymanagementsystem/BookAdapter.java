@@ -3,6 +3,7 @@ package com.example.librarymanagementsystem;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +45,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
         holder.title.setText(bookArray.get(position).title);
         Resources resources = context.getResources();
         int coverID = resources.getIdentifier(bookArray.get(position).cover, "drawable", context.getPackageName());
-        holder.cover.setImageResource(coverID);
+        holder.cover.setImageURI(Uri.parse(bookArray.get(position).cover));
 
         holder.clickListener = bookClickListener;
         holder.bindListeners();
