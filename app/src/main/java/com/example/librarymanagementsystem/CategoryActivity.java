@@ -28,8 +28,8 @@ public class CategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_category);
 
         catArray[0] = new Category();
-        catArray[0].image = "education";
-        catArray[0].text = "Education";
+        catArray[0].image = "maths";
+        catArray[0].text = "Mathematics";
 
         catArray[1] = new Category();
         catArray[1].image = "his";
