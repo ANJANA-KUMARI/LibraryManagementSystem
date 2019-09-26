@@ -172,8 +172,20 @@
         app:backgroundTint="@color/uploadButton"
         tools:ignore="VectorDrawableCompat" />
 
+    <TextView
+        android:id="@+id/selectedFileNameTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="56dp"
+        app:layout_constraintBottom_toBottomOf="@+id/include2"
+        app:layout_constraintEnd_toStartOf="@+id/file_upload_btn"
+        app:layout_constraintTop_toBottomOf="@+id/categoryID"
+        app:layout_constraintVertical_bias="0.178" />
+
 
     <include
+        android:id="@+id/include2"
         layout="@layout/bottom_navigation_bar"
         tools:layout_editor_absoluteX="-25dp"
         tools:layout_editor_absoluteY="183dp" />

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -55,6 +56,7 @@ public class BookViewActivity extends AppCompatActivity {
         categoryText = findViewById(R.id.categoryText);
         summaryText = findViewById(R.id.summaryText);
         coverImage = findViewById(R.id.coverImage);
+
     }
 
     private void setBookDetails(Book book) {
@@ -63,6 +65,7 @@ public class BookViewActivity extends AppCompatActivity {
         pagesText.setText(String.valueOf(book.pages));
         categoryText.setText(getResources().getTextArray(R.array.categories)[book.catid]);
         summaryText.setText(book.summary);
+        coverImage.setImageURI(Uri.parse(book.cover));
     }
 
 

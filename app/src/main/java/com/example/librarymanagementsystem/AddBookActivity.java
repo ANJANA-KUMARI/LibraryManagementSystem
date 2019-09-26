@@ -1,6 +1,7 @@
 package com.example.librarymanagementsystem;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,15 +21,18 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.esafirm.imagepicker.features.ImagePicker;
+import com.esafirm.imagepicker.features.ReturnMode;
+import com.esafirm.imagepicker.model.Image;
 import com.example.librarymanagementsystem.db.BookDbHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 
-import droidninja.filepicker.FilePickerBuilder;
 
 import static java.security.AccessController.getContext;
 
@@ -41,7 +45,9 @@ public class AddBookActivity extends AppCompatActivity implements AdapterView.On
     private TextInputEditText authorTxt;
     private TextInputEditText pagesTxt;
     private TextInputEditText summaryTxt;
+    private TextView selectedCoverImageTxt;
     private  int selectedCategoryId =  -1;
+    private String selectedImagePath = null;
 
     private FloatingActionButton fileUploadBtn;
     private BookDbHelper dbHelper;
@@ -71,8 +77,15 @@ public class AddBookActivity extends AppCompatActivity implements AdapterView.On
         authorTxt = findViewById(R.id.book_author_txt);
         pagesTxt = findViewById(R.id.book_pages_txt);
         summaryTxt = findViewById(R.id.book_summary_txt);
+        selectedCoverImageTxt = findViewById(R.id.selectedFileNameTxt);
 
         fileUploadBtn = findViewById(R.id.file_upload_btn);
+        fileUploadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectBookCover();
+            }
+        });
 
     }
 
@@ -109,6 +122,8 @@ public class AddBookActivity extends AppCompatActivity implements AdapterView.On
 
     }
 
+
+
     private void onBookSaveClicked(){
         // wee need to run this method when the user press the save button malu
 
@@ -128,7 +143,7 @@ public class AddBookActivity extends AppCompatActivity implements AdapterView.On
 
         bookToInsert.summary = this.summaryTxt.getText().toString();
         bookToInsert.catid = selectedCategoryId;
-        bookToInsert.cover = "";
+        bookToInsert.cover = this.selectedImagePath;
 
         // before insert we have to validate this book malu, if it returns false then we cannot add the book so return
         if(!validateBook(bookToInsert)){
@@ -175,6 +190,22 @@ public class AddBookActivity extends AppCompatActivity implements AdapterView.On
     }
 
 
+    private void selectBookCover(){
+        ImagePicker.create(this)
+                .returnMode(ReturnMode.GALLERY_ONLY)
+                .single()
+                .start();
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
+        if(ImagePicker.shouldHandle(requestCode, resultCode, data)){
+            Image image = ImagePicker.getFirstImageOrNull(data);
+            Log.i("BOOKCOVER", image.getPath());
+            selectedImagePath = image.getPath();
+            selectedCoverImageTxt.setText(selectedImagePath);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }
