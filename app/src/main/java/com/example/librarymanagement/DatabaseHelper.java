@@ -70,5 +70,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(CUSTOMER_TABLE,"id = ?",new String[] { id });
     }
+    //Update Data
+    public boolean updateData(String id,String username, String name, String email, String password){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(USERNAME, username);
+        contentValues.put(NAME, name);
+        contentValues.put(EMAIL, email);
+        contentValues.put(PASSWORD, password);
+
+        db.update(CUSTOMER_TABLE,contentValues, "id = ?",new String[]{ id });
+        return true;
+    }
 
 }
