@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UpdateCustomer"></activity>
+        <activity android:name=".MyProfile"></activity>
         <activity android:name=".ViewCustomer" />
         <activity android:name=".AdminDashboard" />
         <activity android:name=".Login" />

@@ -48,7 +48,8 @@ public class Login extends AppCompatActivity {
                 }
                 else if(cursor != null){
                     if(cursor.getCount()>0){
-                        dashboard();
+                        //dashboard();
+                        profile();
                         toast(Login.this,"Success");
                     }
                     else {
@@ -66,6 +67,10 @@ public class Login extends AppCompatActivity {
     //intents
     public void dashboard(){
         Intent intent = new Intent(this,AdminDashboard.class);
+        startActivity(intent);
+    }
+    public void profile(){
+        Intent intent = new Intent(this,MyProfile.class);
         startActivity(intent);
     }
 
