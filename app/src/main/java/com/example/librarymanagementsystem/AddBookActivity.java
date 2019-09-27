@@ -10,6 +10,7 @@ import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -28,6 +29,7 @@ import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.features.ReturnMode;
 import com.esafirm.imagepicker.model.Image;
 import com.example.librarymanagementsystem.db.BookDbHelper;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -45,6 +47,7 @@ public class AddBookActivity extends AppCompatActivity implements AdapterView.On
     private TextInputEditText authorTxt;
     private TextInputEditText pagesTxt;
     private TextInputEditText summaryTxt;
+    Spinner spinner;
     private TextView selectedCoverImageTxt;
     private  int selectedCategoryId =  -1;
     private String selectedImagePath = null;
@@ -52,13 +55,15 @@ public class AddBookActivity extends AppCompatActivity implements AdapterView.On
     private FloatingActionButton fileUploadBtn;
     private BookDbHelper dbHelper;
 
+    private Book bookToUpdate = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((AddBookActivity)this).getSupportActionBar().setTitle("Add Book");
+        ((AddBookActivity)this).getSupportActionBar();
         setContentView(R.layout.activity_add_book);
 
-        Spinner spinner = findViewById(R.id.categoryID);
+         spinner = findViewById(R.id.categoryID);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.categories, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -70,7 +75,27 @@ public class AddBookActivity extends AppCompatActivity implements AdapterView.On
         // here we create a new bookdb helper malu
         this.dbHelper = new BookDbHelper(this);
 
+        this.setupBottomNavigationBar();
+
+        Intent reserveIntent = getIntent();
+
+        if(reserveIntent.hasExtra(BOOKID)){
+            int bookId = reserveIntent.getExtras().getInt(BOOKID);
+
+            bookToUpdate = dbHelper.getBook(bookId);
+            this.setTitle("Update the Book");
+
+            this.setBookDetails(bookToUpdate);
+        } else {
+            setTitle("Add Book");
+        }
+
+
     }
+
+
+
+
 
     private void initializeViews(){
         titleTxt = findViewById(R.id.book_title_txt);
@@ -87,6 +112,15 @@ public class AddBookActivity extends AppCompatActivity implements AdapterView.On
             }
         });
 
+    }
+
+    private void setBookDetails(Book book) {
+        titleTxt.setText(book.title);
+        authorTxt.setText(book.author);
+        pagesTxt.setText(String.valueOf(book.pages));
+        spinner.setSelection(book.catid);
+        summaryTxt.setText(book.summary);
+        selectedImagePath = book.cover;
     }
 
     @Override
@@ -150,14 +184,28 @@ public class AddBookActivity extends AppCompatActivity implements AdapterView.On
             return;
         }
 
-        int result = (int)dbHelper.insertBook(bookToInsert);
+        int result ;
+        String msg;
+        if(bookToUpdate == null){
+            msg = "Successful Inserted";
+            result = (int)dbHelper.insertBook(bookToInsert);
+        }else {
+            msg = "Successful Updated";
+            bookToInsert.id = bookToUpdate.id;
+            result = (int)dbHelper.updateBook(bookToInsert);
+        }
 
         if(result  != -1){
             // success
             // navigate to main activity malu
             // this will go back malu, back to the main activity
-            showToast("Successful Inserted.");
-            finish();
+            showToast(msg);
+            if(bookToUpdate != null) {
+                Intent intent = new Intent(AddBookActivity.this, MainActivity.class);
+                startActivity(intent);
+            } else {
+                finish();
+            }
 
         }else{
             // display a tost saying insert failed malu
@@ -177,6 +225,9 @@ public class AddBookActivity extends AppCompatActivity implements AdapterView.On
             return false;
         }else if(newBook.pages == 0){
             showToast("Pages cannot be 0");
+            return false;
+        }else if(newBook.cover == null){
+            showToast("Cover image is required");
             return false;
         }
 
@@ -207,5 +258,35 @@ public class AddBookActivity extends AppCompatActivity implements AdapterView.On
             selectedCoverImageTxt.setText(selectedImagePath);
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    private void setupBottomNavigationBar(){
+        BottomNavigationView v = findViewById(R.id.bottom_navigation);
+        v.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                menuItem.setChecked(true);
+                switch (menuItem.getItemId()) {
+                    case R.id.collectionbtn :
+                        Intent intent = new Intent(AddBookActivity.this, CategoryActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.searchbtn :
+                        Intent intent1 = new Intent(AddBookActivity.this, SearchActivity
+                                .class);
+                        startActivity(intent1);
+                        break;
+                    case R.id.bookbtn :
+                        Intent intent2 = new Intent(AddBookActivity.this, MainActivity
+                                .class);
+                        startActivity(intent2);
+                        break;
+
+                }
+                return true;
+            }
+        });
+
     }
 }

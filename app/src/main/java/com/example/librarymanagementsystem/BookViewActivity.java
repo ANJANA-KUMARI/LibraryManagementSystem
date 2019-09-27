@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.librarymanagementsystem.db.BookDbHelper;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class BookViewActivity extends AppCompatActivity {
 
@@ -36,7 +37,6 @@ public class BookViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_view);
 
-
         initViews();
 
         Intent reserveIntent = getIntent();
@@ -47,6 +47,10 @@ public class BookViewActivity extends AppCompatActivity {
         bookToDisplay = dbHelper.getBook(bookID);
 
         setBookDetails(bookToDisplay);
+
+        setTitle(bookToDisplay.title);
+
+        this.setupBottomNavigationBar();
     }
 
     private void initViews() {
@@ -97,6 +101,9 @@ public class BookViewActivity extends AppCompatActivity {
             case R.id.delete_book:
                 handleDeleteClick();
                 break;
+            case R.id.edit_book:
+                handleUpdateClick();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -105,5 +112,40 @@ public class BookViewActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.book_view_activity_menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    public void handleUpdateClick(){
+        Intent intent = new Intent(BookViewActivity.this, AddBookActivity.class);
+        intent.putExtra(AddBookActivity.BOOKID, bookToDisplay.id);
+        startActivity(intent);
+    }
+
+    private void setupBottomNavigationBar(){
+        BottomNavigationView v = findViewById(R.id.bottom_navigation);
+        v.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                menuItem.setChecked(true);
+                switch (menuItem.getItemId()) {
+                    case R.id.collectionbtn :
+                        Intent intent = new Intent(BookViewActivity.this, CategoryActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.searchbtn :
+                        Intent intent1 = new Intent(BookViewActivity.this, SearchActivity
+                                .class);
+                        startActivity(intent1);
+                        break;
+                    case R.id.bookbtn :
+                        Intent intent2 = new Intent(BookViewActivity.this, MainActivity
+                                .class);
+                        startActivity(intent2);
+                        break;
+
+                }
+                return true;
+            }
+        });
+
     }
 }

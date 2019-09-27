@@ -17,13 +17,14 @@
     <string name="cancel">Cancel</string>
 
     <string-array name="categories">
-        <item>Education</item>
+        <item>Mathematics</item>
         <item>History</item>
         <item>Cooking</item>
-        <item>Biography</item>
-        <item>Medical</item>
         <item>Religion</item>
         <item>Sport</item>
+        <item>Medical</item>
+        <item>Biography</item>
+        <item>Grammar</item>
     </string-array>
 
 

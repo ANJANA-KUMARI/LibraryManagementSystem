@@ -17,14 +17,23 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class CategoryActivity extends AppCompatActivity {
 
 
+
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager manager;
     private Category[] catArray = new Category[8];
-
+    private CategoryAdapter.CategoryClickListener listener = new CategoryAdapter.CategoryClickListener() {
+        @Override
+        public void onCategoryClick(int position) {
+            Intent intent = new Intent(CategoryActivity.this, MainActivity.class);
+            intent.putExtra(MainActivity.CATEGORYID, position);
+            startActivity(intent);
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Book Collection");
         setContentView(R.layout.activity_category);
 
         catArray[0] = new Category();
@@ -64,7 +73,7 @@ public class CategoryActivity extends AppCompatActivity {
         manager = new GridLayoutManager(this, 2);
 
         recyclerView.setLayoutManager(manager);
-        adapter = new CategoryAdapter(catArray,this);
+        adapter = new CategoryAdapter(catArray,this, listener);
         recyclerView.setAdapter(adapter);
 
 
@@ -97,5 +106,7 @@ public class CategoryActivity extends AppCompatActivity {
         inflater.inflate(R.menu.main_activity_menu, menu);
         return true;
     }
+
+
 
 }

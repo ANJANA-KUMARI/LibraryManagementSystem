@@ -12,10 +12,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AutoCompleteTextView;
 
 import com.example.librarymanagementsystem.db.BookDbHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -23,10 +25,17 @@ import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String CATEGORYID = "CATEGORYID";
+
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager manager;
-    private ArrayList<Book> bookArray;
+    private ArrayList<Book> bookArray = new ArrayList();
+    private ArrayList<Book> originalBookArray;
+    private FloatingActionButton addBtn;
+
+    private int categoryID = -1;
+
     private BookAdapter.BookClickListener bookClickListener = new BookAdapter.BookClickListener() {
         @Override
         public void onBookClick(int position) {
@@ -41,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("All Books");
         setContentView(R.layout.activity_main);
 
         this.dbHelper = new BookDbHelper(this);
@@ -55,6 +65,15 @@ public class MainActivity extends AppCompatActivity {
 
         this.setupBottomNavigationBar();
 
+
+        Intent reserveIntent = getIntent();
+
+        if(reserveIntent.hasExtra(CATEGORYID)){
+            int catId = reserveIntent.getExtras().getInt(CATEGORYID);
+
+            categoryID = catId;
+        }
+
     }
 
     @Override
@@ -67,33 +86,65 @@ public class MainActivity extends AppCompatActivity {
         this.setupBookRecyclerView();
     }
 
-    private void setupBookRecyclerView(){
-        // me tiken ne malu ape recycler view ek setup venne
+        private void setupBookRecyclerView(){
+            // me tiken ne malu ape recycler view ek setup venne
 
-        // api meka onCreate eke nathuw onResume ekedamu malu, ai e kiyala balala api ek damu malu
-        // mn e dan book array ek thibba hama thanam ek ArrayList ekak kala malu mokad api danne nane book kiyak thiyed kiyala db eke ne malu
+            // api meka onCreate eke nathuw onResume ekedamu malu, ai e kiyala balala api ek damu malu
+            // mn e dan book array ek thibba hama thanam ek ArrayList ekak kala malu mokad api danne nane book kiyak thiyed kiyala db eke ne malu
 
 
-        // dan api db eken ganna yanne malu okkom tika
+            // dan api db eken ganna yanne malu okkom tika
 
-        this.bookArray = dbHelper.getAllBooks();
+            this.originalBookArray = dbHelper.getAllBooks();
 
-        manager = new GridLayoutManager(this, 3);
-        recyclerView.setLayoutManager(manager);
-        adapter = new BookAdapter(bookArray,this, bookClickListener);
-        recyclerView.setAdapter(adapter);
 
+            manager = new GridLayoutManager(this, 3);
+            recyclerView.setLayoutManager(manager);
+            adapter = new BookAdapter(bookArray,this, bookClickListener);
+            recyclerView.setAdapter(adapter);
+
+            filterBook();
+        }
+
+    private void filterBook(){
+        bookArray.removeAll(bookArray);
+        if(categoryID == -1) {
+            bookArray.addAll(originalBookArray);
+            adapter.notifyDataSetChanged();
+            addBtn.setRotation(0);
+
+        } else{
+            addBtn.setRotation(45);
+            for (Book book: this.originalBookArray
+                 ) {
+                if(book.catid == categoryID) {
+                    bookArray.add(book);
+                }
+            }
+//            this.bookArray.removeAll(this.bookArray);
+//
+//            this.bookArray.addAll(bookArray);
+
+            adapter.notifyDataSetChanged();
+
+        }
     }
 
     private void initializeViews(){
         // me findViewById thien eva okkom malu 1k function ekak athule damma malu ethkot ape onCreate ek pahadile ne malu ne
 
         recyclerView = findViewById(R.id.bookList);
-        findViewById(R.id.add_btn).setOnClickListener(new View.OnClickListener() {
+        addBtn = findViewById(R.id.add_btn);
+        addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddBookActivity.class);
-                startActivity(intent);
+                if(categoryID == -1) {
+                    Intent intent = new Intent(MainActivity.this, AddBookActivity.class);
+                    startActivity(intent);
+                } else{
+                    categoryID = -1;
+                    filterBook();
+                }
             }
         });
     }
