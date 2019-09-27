@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">LibraryManagement</string>
+    <string name="Cus_Name">Name</string>
+    <string name="Cus_Username">Username</string>
+    <string name="Cus_Email">Email</string>
+    <string name="Cus_Password">Password</string>
+    <string name="Cus_Cpassword">Confirm Password</string>
+    <string name="Cus_Register">Register</string>
+    <string name="Cus_Login">Login</string>
+    <string name="View_Cus">View Customer</string>
+    <string name="Del_Cus">Update Customer</string>
+    <string name="dashboard">Admin Dashboard</string>
+    <string name="id">Customer ID</string>
+    <string name="del">Delete</string>
+    <string name="customers">Current Customers</string>
+</resources>

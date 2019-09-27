@@ -8,6 +8,7 @@
         </compositeConfiguration>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+<<<<<<< HEAD
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -15,6 +16,10 @@
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
+=======
+        <option name="resolveModulePerSourceSet" value="false" />
+        <option name="testRunner" value="PLATFORM" />
+>>>>>>> 92784c991173de8be923f1dfbbd441cd2256cbbe
       </GradleProjectSettings>
     </option>
   </component>
