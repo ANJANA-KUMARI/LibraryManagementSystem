@@ -141,5 +141,4 @@
         app:backgroundTint="@color/uploadButton"
         />
 
-    <include layout="@layout/bottom_navigation_bar"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,12 +1,17 @@
 package com.example.librarymanagementsystem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class CategoryActivity extends AppCompatActivity {
 
@@ -53,6 +58,28 @@ public class CategoryActivity extends AppCompatActivity {
         adapter = new CategoryAdapter(catArray,this);
         recyclerView.setAdapter(adapter);
 
+
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+
+
+        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch(menuItem.getItemId()){
+                    case R.id.bookbtn:
+                        Intent i = new Intent(CategoryActivity.this, MainActivity.class);
+                        startActivity(i);
+                        break;
+
+                    case R.id.searchbtn:
+                        Intent i2 = new Intent(CategoryActivity.this, SearchActivity.class);
+                        startActivity(i2);
+                        break;
+                }
+
+                return true;
+            }
+        });
 
     }
 

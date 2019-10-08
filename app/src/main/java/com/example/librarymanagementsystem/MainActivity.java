@@ -118,8 +118,16 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch(menuItem.getOrder()){
-                    
+                switch(menuItem.getItemId()){
+                    case R.id.collectionbtn:
+                        Intent i = new Intent(MainActivity.this, CategoryActivity.class);
+                        startActivity(i);
+                        break;
+
+                    case R.id.searchbtn:
+                        Intent i2 = new Intent(MainActivity.this, SearchActivity.class);
+                        startActivity(i2);
+                        break;
                 }
 
                 return true;

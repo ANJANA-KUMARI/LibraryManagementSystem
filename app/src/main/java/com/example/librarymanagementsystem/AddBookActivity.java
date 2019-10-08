@@ -4,12 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import static java.security.AccessController.getContext;
 
@@ -20,7 +23,6 @@ public class AddBookActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ((AddBookActivity)this).getSupportActionBar().setTitle("Add Book");
         setContentView(R.layout.activity_add_book);
-
     }
 
     @Override
